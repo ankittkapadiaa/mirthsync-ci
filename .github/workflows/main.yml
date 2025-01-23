@@ -35,4 +35,4 @@ jobs:
         ln -s /opt/mirthsync-2.1.1/bin/mirthsync.sh /usr/local/bin/mirthsync.sh
         
     - name: mirthSync push
-      run: STAGE_URL=https://192.168.1.2/8443/api STAGE_USER=admin STAGE_PASS=ankit make push-remote
+      run: STAGE_URL=https://192.168.1.2:8443/api STAGE_USER=admin STAGE_PASS=ankit make push-remote
