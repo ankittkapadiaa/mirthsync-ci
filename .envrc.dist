@@ -1,6 +1,6 @@
 export DEV_URL=https://localhost:8443/api
 export DEV_USER=admin
-export DEV_PASS=replaceme
+export DEV_PASS=ankit
 
 export STAGE_URL=https://192.168.1.2:8443/api
 export STAGE_USER=admin
