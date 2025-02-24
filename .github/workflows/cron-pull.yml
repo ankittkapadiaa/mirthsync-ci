@@ -35,6 +35,17 @@ jobs:
         tar -xvzf mirthsync-2.1.1.tar.gz -C /opt &&
         ln -s /opt/mirthsync-2.1.1/bin/mirthsync.sh /usr/local/bin/mirthsync.sh
         
+    - name: Check if secrets are set
+      run: |
+        if [ -z "$DEV_URL" ]; then echo "DEV_URL is missing"; else echo "DEV_URL is set"; fi
+        if [ -z "$DEV_USER" ]; then echo "DEV_USER is missing"; else echo "DEV_USER is set"; fi
+        if [ -z "$DEV_PASS" ]; then echo "DEV_PASS is missing"; else echo "DEV_PASS is set"; fi
+      env:
+        DEV_URL: ${{ secrets.DEV_URL }}
+        DEV_USER: ${{ secrets.DEV_USER }}
+        DEV_PASS: ${{ secrets.DEV_PASS }}
+
+        
     - name: mirthSync pull
       run: DEV_URL=${{ secrets.DEV_URL }} DEV_USER=${{ secrets.DEV_USER }} DEV_PASS=${{ secrets.DEV_PASS }} make pull-local
 
