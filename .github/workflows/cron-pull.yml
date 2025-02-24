@@ -36,7 +36,7 @@ jobs:
         ln -s /opt/mirthsync-2.1.1/bin/mirthsync.sh /usr/local/bin/mirthsync.sh
         
     - name: mirthSync pull
-      run: DEV_URL=https://localhost:8443/api DEV_USER=admin DEV_PASS=ankit make pull-local
+      run: DEV_URL=${{ secrets.DEV_URL }} DEV_USER=${{ secrets.DEV_USER }} DEV_PASS=${{ secrets.DEV_PASS }} make pull-local
 
     # - name: Pull Channels from Mirth Dev Server
     #   run: |
