@@ -44,6 +44,22 @@ jobs:
         DEV_URL: ${{ secrets.DEV_URL }}
         DEV_USER: ${{ secrets.DEV_USER }}
         DEV_PASS: ${{ secrets.DEV_PASS }}
+        
+    - name: Test Connection with curl
+      run: |
+          echo "Attempting to connect to DEV_URL using curl..."
+          curl -v $DEV_URL || echo "curl connection failed."
+      env:
+          DEV_URL: ${{ secrets.DEV_URL }}
+
+    - name: Ping Server
+      run: |
+          # Extract hostname from DEV_URL (assuming DEV_URL includes a protocol)
+          HOST=$(echo $DEV_URL | sed -E 's/https?:\/\/([^\/]+).*/\1/')
+          echo "Pinging host: $HOST"
+          ping -c 4 $HOST || echo "Ping failed. Host might be unreachable."
+      env:
+          DEV_URL: ${{ secrets.DEV_URL }}
 
         
     - name: mirthSync pull
