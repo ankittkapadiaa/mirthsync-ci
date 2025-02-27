@@ -49,7 +49,7 @@ jobs:
       run: |
           echo "Attempting to connect to DEV_URL using curl..."
           echo $DEV_URL
-          curl -v https://10.4.64.25:8443/api/ || echo "curl connection failed."
+          curl -k https://10.4.64.25:8443/api/ || echo "curl connection failed."
       env:
           DEV_URL: ${{ secrets.DEV_URL }}
 
@@ -58,7 +58,7 @@ jobs:
           # Extract hostname from DEV_URL (assuming DEV_URL includes a protocol)
           HOST=$(echo https://10.4.64.25:8443/api/ | sed -E 's/https?:\/\/([^\/]+).*/\1/')
           echo "Pinging host: $HOST"
-          ping -c 4 $HOST || echo "Ping failed. Host might be unreachable."
+          ping  $HOST || echo "Ping failed. Host might be unreachable."
       env:
           DEV_URL: ${{ secrets.DEV_URL }}
 
