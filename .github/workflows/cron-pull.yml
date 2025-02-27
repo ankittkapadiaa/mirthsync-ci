@@ -49,14 +49,14 @@ jobs:
       run: |
           echo "Attempting to connect to DEV_URL using curl..."
           echo $DEV_URL
-          curl -v $DEV_URL || echo "curl connection failed."
+          curl -v https://10.4.64.25:8443/api/ || echo "curl connection failed."
       env:
           DEV_URL: ${{ secrets.DEV_URL }}
 
     - name: Ping Server
       run: |
           # Extract hostname from DEV_URL (assuming DEV_URL includes a protocol)
-          HOST=$(echo $DEV_URL | sed -E 's/https?:\/\/([^\/]+).*/\1/')
+          HOST=$(echo https://10.4.64.25:8443/api/ | sed -E 's/https?:\/\/([^\/]+).*/\1/')
           echo "Pinging host: $HOST"
           ping -c 4 $HOST || echo "Ping failed. Host might be unreachable."
       env:
@@ -64,7 +64,7 @@ jobs:
 
         
     - name: mirthSync pull
-      run: DEV_URL=${{ secrets.DEV_URL }} DEV_USER=${{ secrets.DEV_USER }} DEV_PASS=${{ secrets.DEV_PASS }} make pull-local
+      run: DEV_URL=https://10.4.64.25:8443/api/ DEV_USER=admin DEV_PASS=ankit make pull-local
 
     # - name: Pull Channels from Mirth Dev Server
     #   run: |
