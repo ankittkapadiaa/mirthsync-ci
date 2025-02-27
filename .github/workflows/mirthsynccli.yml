@@ -1,0 +1,36 @@
+name: Pull Mirth Connect Channel Data
+
+on:
+  workflow_dispatch:  # Allows manual execution
+  schedule:
+    - cron: '10/10 * * * *'  # Runs daily at 2 AM UTC
+
+jobs:
+  pull-mirth-channels:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install mirthsync
+        run: |
+          wget https://github.com/nextgenhealthcare/mirthsync/releases/latest/download/mirthsync-linux-amd64
+          chmod +x mirthsync-linux-amd64
+          sudo mv mirthsync-linux-amd64 /usr/local/bin/mirthsync
+
+      - name: Pull Mirth Connect channels
+        run: |
+          mirthsync pull \
+            --url "https://10.4.64.25:8443/api/" \
+            --username "admin" \
+            --password "ankit" \
+            --output ./mirth_channels
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add ./mirth_channels
+          git commit -m "Update Mirth Connect channel data" || echo "No changes to commit"
+          git push
