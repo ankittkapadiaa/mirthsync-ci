@@ -53,16 +53,6 @@ jobs:
       env:
           DEV_URL: ${{ secrets.DEV_URL }}
 
-    - name: Ping Server
-      run: |
-          # Extract hostname from DEV_URL (assuming DEV_URL includes a protocol)
-          HOST=$(echo https://10.4.64.25:8443/api/ | sed -E 's/https?:\/\/([^\/]+).*/\1/')
-          echo "Pinging host: $HOST"
-          ping  10.4.64.25 || echo "Ping failed. Host might be unreachable."
-      env:
-          DEV_URL: ${{ secrets.DEV_URL }}
-
-        
     - name: mirthSync pull
       run: DEV_URL=https://10.4.64.25:8443/api/ DEV_USER=admin DEV_PASS=ankit make pull-local
 
