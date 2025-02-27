@@ -58,7 +58,7 @@ jobs:
           # Extract hostname from DEV_URL (assuming DEV_URL includes a protocol)
           HOST=$(echo https://10.4.64.25:8443/api/ | sed -E 's/https?:\/\/([^\/]+).*/\1/')
           echo "Pinging host: $HOST"
-          ping  $HOST || echo "Ping failed. Host might be unreachable."
+          ping  10.4.64.25 || echo "Ping failed. Host might be unreachable."
       env:
           DEV_URL: ${{ secrets.DEV_URL }}
 
