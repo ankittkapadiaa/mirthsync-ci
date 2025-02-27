@@ -15,9 +15,9 @@ jobs:
 
       - name: Install mirthsync
         run: |
-          wget https://github.com/nextgenhealthcare/mirthsync/releases/latest/download/mirthsync-linux-amd64
-          chmod +x mirthsync-linux-amd64
-          sudo mv mirthsync-linux-amd64 /usr/local/bin/mirthsync
+          wget https://github.com/SagaHealthcareIT/mirthsync/releases/download/3.1.0/mirthsync-3.1.0.tar.gz
+          chmod +x mirthsync-3.1.0
+          sudo mv mirthsync-3.1.0 /usr/local/bin/mirthsync
 
       - name: Pull Mirth Connect channels
         run: |
