@@ -37,7 +37,7 @@ jobs:
             --server "https://10.4.64.25:8443/api/" \
             --username "admin" \
             --password "ankit" \
-            --output ./mirth_channels \
+            --target ./mirth_channels \
             pull
 
       - name: Commit and push changes
