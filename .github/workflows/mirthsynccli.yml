@@ -30,15 +30,15 @@ jobs:
         run: |
           ls -l /usr/local/bin/mirthsync
           which mirthsync
-          mirthsync --version
 
       - name: Pull Mirth Connect channels
         run: |
-          mirthsync pull \
-            --url "https://10.4.64.25:8443/api/" \
+          mirthsync  \
+            --server "https://10.4.64.25:8443/api/" \
             --username "admin" \
             --password "ankit" \
-            --output ./mirth_channels
+            --output ./mirth_channels \
+            pull
 
       - name: Commit and push changes
         run: |
