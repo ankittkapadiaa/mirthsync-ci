@@ -37,8 +37,11 @@ jobs:
             --server "https://10.4.64.25:8443/api/" \
             --username "admin" \
             --password "ankit" \
+            --insecure \
             --target ./mirth_channels \
             pull
+          run: |
+            tail -f /opt/mirthconnect/logs/mirth.log
 
       - name: Commit and push changes
         run: |
