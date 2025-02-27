@@ -48,6 +48,7 @@ jobs:
     - name: Test Connection with curl
       run: |
           echo "Attempting to connect to DEV_URL using curl..."
+          echo $DEV_URL
           curl -v $DEV_URL || echo "curl connection failed."
       env:
           DEV_URL: ${{ secrets.DEV_URL }}
