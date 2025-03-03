@@ -1,0 +1,52 @@
+name: Pull Mirth Connect Channel Data
+
+on:
+  workflow_dispatch:  # Allows manual execution
+  schedule:
+    - cron: '0/30 1/24 * * *'  # Runs daily at 2 AM UTC
+
+jobs:
+  pull-mirth-channels:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Download mirthSync
+        if: steps.cache-mirthsync.outputs.cache-hit != 'true'
+        run: 
+          curl -L -O https://github.com/SagaHealthcareIT/mirthsync/releases/download/3.1.0/mirthsync-3.1.0.tar.gz &&
+          echo 'e602af6636cf139146377f98cf56331d7cb1f62fa0cdf57e8555a4a66388d420  mirthsync-3.1.0.tar.gz' | sha256sum -c
+
+      - name: Unpack and Set Up mirthSync
+        run: |
+          tar -xvzf mirthsync-3.1.0.tar.gz
+          sudo mv mirthsync-3.1.0 /opt/mirthsync
+          sudo chmod +x /opt/mirthsync/bin/mirthsync.sh
+          sudo ln -sf /opt/mirthsync/bin/mirthsync.sh /usr/local/bin/mirthsync
+
+      - name: Verify Installation
+        run: |
+          ls -l /usr/local/bin/mirthsync
+          which mirthsync
+
+      - name: Pull Mirth Connect channels
+        run: |
+          mirthsync  \
+            --server ${{ secrets.DEV_URL }} \
+            --username ${{ secrets.DEV_USER }} \
+            --password ${{ secrets.DEV_PASS }} \
+            -i \
+            --target ./mirth_channels \
+            pull
+          run: |
+            tail -f /opt/mirthconnect/logs/mirth.log
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name ${{ secrets.GITHUB_USER }}
+          git config --global user.email ${{ secrets.GITHUB_PASS }}
+          git add ./mirth_channels
+          git commit -m "Update Mirth Connect channel data" || echo "No changes to commit"
+          git push
